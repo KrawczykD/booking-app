@@ -9,7 +9,9 @@
         :data-bs-interval="time"
       >
         <Goods>
-          <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc">{{ slide.price }}</GoodsItem>
+          <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
+            ><strong class="text-white">{{ slide.price }}</strong></GoodsItem
+          >
         </Goods>
       </div>
     </div>
@@ -63,9 +65,9 @@ export default defineComponent({
     splitItemsToArrays(slides: Array<any>) {
       var splitedArrays = [];
 
-      for (var i = 0; i < slides.length; i += 4) {
+      for (var i = 0; i < slides.length; i += 3) {
         let tempArray;
-        tempArray = slides.slice(i, i + 4);
+        tempArray = slides.slice(i, i + 3);
         splitedArrays.push(tempArray);
       }
       return splitedArrays;

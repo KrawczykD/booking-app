@@ -1,5 +1,5 @@
 <template>
-  <div class="col-2 booking-app-goods-item">
+  <div class="col-4 booking-app-goods-item">
     <img class="img-fluid img-thumbnail" :src="imgsrc" alt="" />
     <p class="d-flex justify-content-center"><slot></slot></p>
   </div>

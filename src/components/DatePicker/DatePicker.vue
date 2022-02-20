@@ -1,6 +1,6 @@
 <template>
   <div class="col-6 booking-app-date-picker">
-    <label for="startDate"><slot></slot></label>
+    <label class="input-group-text" for="startDate"><slot></slot></label>
     <input id="startDate" class="form-control" type="date" :value="date" />
   </div>
 </template>

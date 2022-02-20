@@ -1,5 +1,5 @@
 <template>
-  <div class="booking-app-layout">
+  <div class="py-2 booking-app-layout">
     <slot></slot>
   </div>
 </template>

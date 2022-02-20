@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 my-2 d-flex list-group-item booking-app-cart-item">
     <div class="col-3">
-      <img class="img-fluid img-thumbnail" src="https://via.placeholder.com/150" alt="item-image" />
+      <img class="img-fluid img-thumbnail" :src="imgsrc" alt="item-image" />
     </div>
     <div class="col-8 px-2">
       <p>
@@ -20,7 +20,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-export default defineComponent({});
+export default defineComponent({
+  props: {
+    id: {
+      type: Number,
+      default: 0
+    },
+    imgsrc: {
+      type: String,
+      default: ''
+    }
+  }
+});
 </script>
 
 <style></style>

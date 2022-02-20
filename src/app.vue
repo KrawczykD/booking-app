@@ -1,39 +1,117 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 <template>
   <Layout>
-    <Header>
-      <Calendar>
-        <DatePicker>Start:</DatePicker>
-        <DatePicker>End:</DatePicker>
-      </Calendar>
-    </Header>
-    <Main>
-      <button class="btn btn-warning text-white w-100" disabled>Minimum order value is 600 £</button>
-      <Categories>
-        <CategoriesItem
-          v-for="(category, index) in categories"
-          v-on:click="toggleCategory(category)"
-          v-bind:key="index"
-          :style="category.isActive ? { color: category.color, border: '4px solid ' + category.color } : { backgroundColor: category.color, border: '4px solid ' + category.color }"
-          >{{ category.title }}</CategoriesItem
-        >
-      </Categories>
-      <Carusele v-on:goodsItemClicked="addToCart" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
-      <Cart>
-        <CartItem v-for="(item, index) in cart" v-bind:key="index">
-          <template v-slot:title>{{ item.title }}</template>
-          <template v-slot:description>{{ item.description }}</template>
-          <template v-slot:button>
-            <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">X</button>
-          </template>
-        </CartItem>
-      </Cart>
-    </Main>
+    <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645395772/booking-app/bcnLogo_ahnnr6.png" alt="" srcset="" />
+    <section v-if="activeStep == 0" class="booking-app-step-0">
+      <button v-if="correctAddress" v-on:click="activeStep = 1" class="btn btn-success text-white w-100 my-3">Go to see our Castles!</button>
+      <span v-else class="btn btn-warning text-white w-100 my-3">Do we deliver to you?</span>
+      <div class="input-group mb-3">
+        <span v-on:click="correctAddress = true" class="btn btn-primary" id="basic-addon1">Search</span>
+        <input type="text" class="form-control" placeholder="Your Address" aria-label="location" aria-describedby="basic-addon1" />
+      </div>
+      <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645392959/booking-app/mapDemo_hsoarx.png" alt="" />
+    </section>
+    <section v-if="activeStep == 1" class="booking-app-step-1">
+      <Header>
+        <Calendar>
+          <DatePicker><strong>Start:</strong></DatePicker>
+          <DatePicker><strong>End:</strong></DatePicker>
+        </Calendar>
+      </Header>
+      <Main>
+        <span v-if="cart.length < 3" class="btn btn-warning text-white w-100">Minimum order value is 600 £</span>
+        <button v-else v-on:click="activeStep = 2" class="btn btn-success text-white w-100">Well Done! Go to next step!</button>
+        <Categories>
+          <CategoriesItem
+            v-for="(category, index) in categories"
+            v-on:click="toggleCategory(category)"
+            v-bind:key="index"
+            :style="category.isActive ? { color: '#ffffff', border: '4px solid ' + category.color } : { backgroundColor: category.color, border: '4px solid ' + category.color }"
+            >{{ category.title }}</CategoriesItem
+          >
+        </Categories>
+        <Carusele v-on:goodsItemClicked="addToCart" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+        <Cart>
+          <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="item.imgsrc">
+            <template v-slot:title
+              >{{ item.title }}
+              <p>{{ item.price }}</p></template
+            >
+            <template v-slot:description>{{ item.description }}</template>
+            <template v-slot:button>
+              <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">X</button>
+            </template>
+          </CartItem>
+        </Cart>
+      </Main>
+    </section>
+    <section v-if="activeStep == 2" class="booking-app-step-2">
+      <p class="btn btn-info text-white w-100 my-4">Please Enter Your Contact Details</p>
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Your Full Name</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Post Code</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Address Line 1</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Town</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Country</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Email</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <button v-on:click="activeStep = 3" class="btn btn-success text-white w-100">Well Done! Go to next step!</button>
+    </section>
+    <section v-if="activeStep == 3" class="booking-app-step-2">
+      <p class="btn btn-info text-white w-100 my-4">Access Details</p>
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">The asset will be</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">The asset's location will be</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Hire Occasion</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text col-4 text-wrap" id="inputGroup-sizing-default">Email</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+
+      <button v-on:click="activeStep = 4" class="btn btn-success text-white w-100">Go To Payment!</button>
+    </section>
+    <section v-if="activeStep == 4">
+      <p v-on:click="activeStep = 4" class="btn btn-success text-white w-100 fs-1">Congratulations! Your order has been placed.Thank you!</p>
+      <button v-on:click="activeStep = 0" class="btn btn-success text-white w-100">See More Details!</button>
+    </section>
   </Layout>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import Header from './components/Header/Header.vue';
 import Layout from './components/Layout/Layout.vue';
 import DatePicker from './components/DatePicker/DatePicker.vue';
@@ -46,192 +124,132 @@ import CategoriesItem from './components/CategoriesItem/CategoriesItem.vue';
 import Carusele from './components/Carusele/Carusele.vue';
 export default defineComponent({
   setup() {
+    let activeStep = ref(0);
+    let correctAddress = ref(false);
+
     let categories = reactive([
       { title: 'Bouncy Castles', isActive: true, id: 0, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
       { title: 'Slides', isActive: false, id: 1, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
-      { title: 'Ball Pit', isActive: false, id: 2, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
-      { title: 'Bouncy Castles', isActive: false, id: 3, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) }
+      { title: 'Mini Golf', isActive: false, id: 2, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
+      { title: 'Rodeo', isActive: false, id: 3, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) }
     ]);
 
-    var slides = reactive([
+    var products = reactive([
       {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Castle',
+        description: 'test description for castle',
         id: 1,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle1_fgbg2u.jpg',
+        price: '90£',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
-        description: 'test description',
+        description: 'test description for Castle 1',
         id: 2,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide2',
-        price: '91£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle5_lumom6.jpg',
+        price: '91£',
         alt: 'img desc'
       },
       {
         title: 'Castle 2',
-        description: 'test description',
+        description: 'test description for Castle 2',
         id: 3,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide3',
-        price: '92£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle1_fgbg2u.jpg',
+        price: '92£',
         alt: 'img desc'
       },
       {
         title: 'Castle 3',
-        description: 'test description',
+        description: 'test description for Castle 3',
         id: 4,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide4',
-        price: '93£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle5_lumom6.jpg',
+        price: '93£',
         alt: 'img desc'
       },
       {
         title: 'Castle 4',
-        description: 'test description',
+        description: 'test description for Castle 4',
         id: 5,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide4',
-        price: '94£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle2_x5pog8.jpg',
+        price: '94£',
         alt: 'img desc'
       },
       {
         title: 'Castle 5',
-        description: 'test description',
+        description: 'test description for Castle 5',
         id: 6,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide5',
-        price: '95£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle2_x5pog8.jpg',
+        price: '95£',
         alt: 'img desc'
       },
       {
         title: 'Castle 6',
-        description: 'test description',
+        description: 'test description for Castle 6',
         id: 7,
         categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide6',
-        price: '96£-0',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle6_y6k3pv.jpg',
+        price: '96£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 7',
-        description: 'test description',
-        id: 8,
-        categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide7',
-        price: '97£-0',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 8',
-        description: 'test description',
-        id: 9,
-        categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide8',
-        price: '98£-0',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 9',
-        description: 'test description',
-        id: 10,
-        categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide9',
-        price: '99£-0',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 10',
-        description: 'test description',
-        id: 11,
-        categoryId: 0,
-        imgsrc: 'https://via.placeholder.com/150?text=slide10',
-        price: '100£-0',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Slide',
+        description: 'test description for Slide',
         id: 12,
         categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£-1',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide2_bpordj.jpg',
+        price: '90£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Slide 2',
+        description: 'test description for Slide 2',
         id: 13,
         categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '91£-1',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide6_fhbagl.jpg',
+        price: '91£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Slide 3',
+        description: 'test description for SLide 3',
         id: 0,
         categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '92£-1',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide3_jpmr8g.jpg',
+        price: '92£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Slide 4',
+        description: 'test description for Slide 4',
         id: 14,
         categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '93£-1',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide1_zipxh7.jpg',
+        price: '93£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Mini Golf',
+        description: 'test description for Mini Golf',
         id: 15,
         categoryId: 2,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£-2',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/golf1_phtmix.jpg',
+        price: '90£',
         alt: 'img desc'
       },
       {
-        title: 'Castle 1',
-        description: 'test description',
-        id: 16,
-        categoryId: 2,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '91£-2',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
+        title: 'Rodeo',
+        description: 'test description for Rodeo',
         id: 17,
         categoryId: 3,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£-3',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
-        id: 18,
-        categoryId: 3,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '91£-3',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
-        id: 19,
-        categoryId: 3,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '92£-3',
+        imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/rodeo1_ietiph.jpg',
+        price: '90£',
         alt: 'img desc'
       }
     ]);
@@ -243,15 +261,15 @@ export default defineComponent({
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let addToCart = function (id: any) {
-      let indexItemToRemove = slides.findIndex((item) => item.id === id);
-      cart.push(slides[indexItemToRemove]);
-      slides.splice(indexItemToRemove, 1);
+      let indexItemToRemove = products.findIndex((item) => item.id === id);
+      cart.push(products[indexItemToRemove]);
+      products.splice(indexItemToRemove, 1);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let removeFromCart = function (id: any) {
       let indexItemToRemove = cart.findIndex((item) => item.id === id);
-      slides.push(cart[indexItemToRemove]);
+      products.push(cart[indexItemToRemove]);
       cart.splice(indexItemToRemove, 1);
     };
 
@@ -270,9 +288,9 @@ export default defineComponent({
 
       let activeCategoryId = getActiveCategoryId();
 
-      filteredArray = slides.filter((item) => item.categoryId === activeCategoryId);
+      filteredArray = products.filter((item) => item.categoryId === activeCategoryId);
 
-      return reactive(filteredArray);
+      return filteredArray;
     };
 
     let getActiveCategoryId = function () {
@@ -284,7 +302,7 @@ export default defineComponent({
       return activeCaytegoryId;
     };
 
-    return { slides, addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems };
+    return { products, addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems, activeStep, correctAddress };
   },
 
   components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele }
