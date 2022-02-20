@@ -18,7 +18,7 @@
           >{{ category.title }}</CategoriesItem
         >
       </Categories>
-      <Carusele v-on:goodsItemClicked="addToCart" v-bind:slides="slides" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+      <Carusele v-on:goodsItemClicked="addToCart" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
       <Cart>
         <CartItem v-for="(item, index) in cart" v-bind:key="index">
           <template v-slot:title>{{ item.title }}</template>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 import Header from './components/Header/Header.vue';
 import Layout from './components/Layout/Layout.vue';
 import DatePicker from './components/DatePicker/DatePicker.vue';
@@ -57,100 +57,118 @@ export default defineComponent({
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 1,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '90£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 1,
+        id: 2,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide2',
-        price: '91£',
+        price: '91£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 2',
         description: 'test description',
-        id: 2,
+        id: 3,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide3',
-        price: '92£',
+        price: '92£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 3',
         description: 'test description',
-        id: 3,
+        id: 4,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide4',
-        price: '93£',
+        price: '93£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 4',
         description: 'test description',
-        id: 4,
+        id: 5,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide4',
-        price: '94£',
+        price: '94£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 5',
         description: 'test description',
-        id: 5,
+        id: 6,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide5',
-        price: '95£',
+        price: '95£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 6',
         description: 'test description',
-        id: 6,
+        id: 7,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide6',
-        price: '96£',
+        price: '96£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 7',
         description: 'test description',
-        id: 7,
+        id: 8,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide7',
-        price: '97£',
+        price: '97£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 8',
         description: 'test description',
-        id: 8,
+        id: 9,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide8',
-        price: '98£',
+        price: '98£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 9',
         description: 'test description',
-        id: 9,
+        id: 10,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide9',
-        price: '99£',
+        price: '99£-0',
         alt: 'img desc'
       },
       {
         title: 'Castle 10',
         description: 'test description',
-        id: 10,
+        id: 11,
         categoryId: 0,
         imgsrc: 'https://via.placeholder.com/150?text=slide10',
-        price: '100£',
+        price: '100£-0',
+        alt: 'img desc'
+      },
+      {
+        title: 'Castle 1',
+        description: 'test description',
+        id: 12,
+        categoryId: 1,
+        imgsrc: 'https://via.placeholder.com/150?text=slide1',
+        price: '90£-1',
+        alt: 'img desc'
+      },
+      {
+        title: 'Castle 1',
+        description: 'test description',
+        id: 13,
+        categoryId: 1,
+        imgsrc: 'https://via.placeholder.com/150?text=slide1',
+        price: '91£-1',
         alt: 'img desc'
       },
       {
@@ -159,82 +177,66 @@ export default defineComponent({
         id: 0,
         categoryId: 1,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '92£-1',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 14,
         categoryId: 1,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '93£-1',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
-        categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
-        id: 0,
-        categoryId: 1,
-        imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
-        alt: 'img desc'
-      },
-      {
-        title: 'Castle 1',
-        description: 'test description',
-        id: 0,
+        id: 15,
         categoryId: 2,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '90£-2',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 16,
         categoryId: 2,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '91£-2',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 17,
         categoryId: 3,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '90£-3',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 18,
         categoryId: 3,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '91£-3',
         alt: 'img desc'
       },
       {
         title: 'Castle 1',
         description: 'test description',
-        id: 0,
+        id: 19,
         categoryId: 3,
         imgsrc: 'https://via.placeholder.com/150?text=slide1',
-        price: '90£',
+        price: '92£-3',
         alt: 'img desc'
       }
     ]);
+
+    let filteredItems = computed(() => filterItemsByCategory());
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let cart: Array<any> = reactive([]);
@@ -282,7 +284,7 @@ export default defineComponent({
       return activeCaytegoryId;
     };
 
-    return { slides, addToCart, cart, removeFromCart, categories, toggleCategory, filterItemsByCategory };
+    return { slides, addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems };
   },
 
   components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele }
