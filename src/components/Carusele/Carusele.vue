@@ -59,6 +59,7 @@ export default defineComponent({
     goodsItemClick(id: number) {
       this.$emit('goodsItemClicked', id);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     splitItemsToArrays(slides: Array<any>) {
       var splitedArrays = [];
 
