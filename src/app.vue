@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 <template>
   <Layout>
     <Header>
@@ -235,20 +236,24 @@ export default defineComponent({
       }
     ]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let cart: Array<any> = reactive([]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let addToCart = function (id: any) {
       let indexItemToRemove = slides.findIndex((item) => item.id === id);
       cart.push(slides[indexItemToRemove]);
       slides.splice(indexItemToRemove, 1);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let removeFromCart = function (id: any) {
       let indexItemToRemove = cart.findIndex((item) => item.id === id);
       slides.push(cart[indexItemToRemove]);
       cart.splice(indexItemToRemove, 1);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let toggleCategory = function (categoryItem: any) {
       console.log('toggle cattegory');
       categories.forEach((category) => {
@@ -259,6 +264,7 @@ export default defineComponent({
     };
 
     let filterItemsByCategory = function () {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let filteredArray: Array<any> = [];
 
       let activeCategoryId = getActiveCategoryId();
