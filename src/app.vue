@@ -255,7 +255,6 @@ export default defineComponent({
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let toggleCategory = function (categoryItem: any) {
-      console.log('toggle cattegory');
       categories.forEach((category) => {
         category.isActive = false;
       });
