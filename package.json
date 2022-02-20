@@ -24,7 +24,8 @@
     "cloduinaryGetLastestFiles": "gulp getLatestVersion",
     "cloudinaryDeleteFiles": "gulp deleteVersion",
     "boprRelease": "gulp releaseBOPR",
-    "husky:prepare": "husky install"
+    "husky:prepare": "husky install",
+    "deploy": "bash deploy.sh"
   },
   "dependencies": {
     "core-js": "^3.6.5",
