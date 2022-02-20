@@ -3,8 +3,8 @@
   <Layout>
     <Header>
       <Calendar>
-        <DatePicker></DatePicker>
-        <DatePicker></DatePicker>
+        <DatePicker>Start:</DatePicker>
+        <DatePicker>End:</DatePicker>
       </Calendar>
     </Header>
     <Main>
