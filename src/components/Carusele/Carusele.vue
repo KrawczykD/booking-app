@@ -57,7 +57,7 @@ export default defineComponent({
   },
   methods: {
     goodsItemClick(id: number) {
-      this.$emit('goodsItemClicked', id, this.slides);
+      this.$emit('goodsItemClicked', id);
     },
     splitItemsToArrays(slides: Array<any>) {
       var splitedArrays = [];
