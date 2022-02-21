@@ -3,7 +3,6 @@ const pjson = require('./package.json');
 const version = pjson.version;
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/booking-app/' : '/',
   filenameHashing: true,
   configureWebpack: (config) => {
     (config.output.filename = `[name].${version}.js`), (config.output.chunkFilename = `[name].${version}.js`);
