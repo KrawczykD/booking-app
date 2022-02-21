@@ -10,7 +10,7 @@
       >
         <Goods>
           <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
-            ><strong class="text-white">{{ slide.price }}{{ index }}</strong></GoodsItem
+            ><strong class="text-white">{{ slide.price }}</strong></GoodsItem
           >
         </Goods>
       </div>
