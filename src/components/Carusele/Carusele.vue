@@ -4,13 +4,13 @@
       <div
         v-for="(slides, index) in splitedArrays"
         v-bind:key="index"
-        :class="['carousel-item booking-app-carusel-item', index === splitedArrays.length - 1 ? 'active' : '']"
+        :class="['carousel-item booking-app-carusel-item']"
         :style="{ 'transition-duration': durationTime * 0.001 + 's' }"
         :data-bs-interval="time"
       >
         <Goods>
           <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
-            ><strong class="text-white">{{ slide.price }}</strong></GoodsItem
+            ><strong class="text-white">{{ slide.price }}{{ index }}</strong></GoodsItem
           >
         </Goods>
       </div>
@@ -52,11 +52,31 @@ export default defineComponent({
       default: 2000
     }
   },
-  computed: {
-    splitedArrays: function () {
-      let newArray = this.splitItemsToArrays(this.slides);
-      return newArray;
+  data: function () {
+    return {
+      splitedArrays: [] as Array<any>
+    };
+  },
+  // computed: {
+  //   splitedArrays: function () {
+  //     let newArray = this.splitItemsToArrays(this.slides);
+  //     return newArray;
+  //   }
+  // },
+
+  watch: {
+    slides: function () {
+      this.splitedArrays = this.splitItemsToArrays(this.slides);
+      this.$nextTick(() => {
+        this.addActiveClassToFirstCaruselItem();
+      });
     }
+  },
+  mounted: function () {
+    this.splitedArrays = this.splitItemsToArrays(this.slides);
+    this.$nextTick(() => {
+      this.addActiveClassToFirstCaruselItem();
+    });
   },
   methods: {
     goodsItemClick(id: number) {
@@ -72,6 +92,12 @@ export default defineComponent({
         splitedArrays.push(tempArray);
       }
       return splitedArrays;
+    },
+
+    addActiveClassToFirstCaruselItem: function () {
+      let firstCaruselItem = document.querySelectorAll('.booking-app-carusel-item')[0];
+      firstCaruselItem.classList.add('active');
+      console.log(firstCaruselItem);
     }
   }
 });
