@@ -124,7 +124,7 @@ import CategoriesItem from './components/CategoriesItem/CategoriesItem.vue';
 import Carusele from './components/Carusele/Carusele.vue';
 export default defineComponent({
   setup() {
-    let activeStep = ref(1);
+    let activeStep = ref(0);
     let correctAddress = ref(false);
 
     let categories = reactive([
