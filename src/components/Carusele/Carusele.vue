@@ -4,7 +4,7 @@
       <div
         v-for="(slides, index) in splitedArrays"
         v-bind:key="index"
-        :class="['carousel-item', index === 0 ? 'active' : '']"
+        :class="['carousel-item booking-app-carusel-item', index === splitedArrays.length - 1 ? 'active' : '']"
         :style="{ 'transition-duration': durationTime * 0.001 + 's' }"
         :data-bs-interval="time"
       >
@@ -54,7 +54,8 @@ export default defineComponent({
   },
   computed: {
     splitedArrays: function () {
-      return this.splitItemsToArrays(this.slides);
+      let newArray = this.splitItemsToArrays(this.slides);
+      return newArray;
     }
   },
   methods: {
