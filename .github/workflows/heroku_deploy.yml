@@ -37,7 +37,7 @@ jobs:
           # Email from Heroku Account
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           # The appname to use for deploying/updating
-          heroku_app_name: booking-app-3
+          heroku_app_name: booking-app-1
           appdir: dist  
 
    
