@@ -3,30 +3,30 @@
   <Layout>
     <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645395772/booking-app/bcnLogo_ahnnr6.png" alt="" srcset="" />
     <section v-if="activeStep == 0" class="booking-app-step-0">
-      <button v-if="correctAddress" v-on:click="activeStep = 1" class="btn btn-success text-white w-100 my-3">Go to see our Castles!</button>
-      <span v-else class="btn btn-warning text-white w-100 my-3">Do we deliver to you?</span>
+      <button v-if="correctAddress" v-on:click="activeStep = 1" class="btn btn-success text-white w-100 fs-5 my-3">Go to see our Castles!</button>
+      <span v-else class="btn btn-warning text-dark fs-5 w-100 my-3">Do we deliver to you?</span>
       <div class="input-group mb-3">
-        <span v-on:click="correctAddress = true" class="btn btn-primary" id="basic-addon1">Search</span>
-        <input type="text" class="form-control" placeholder="Your Address" aria-label="location" aria-describedby="basic-addon1" />
+        <span v-on:click="correctAddress = true" class="btn border border-3 text-white" id="search-button"><i class="fas fa-search"></i></span>
+        <input type="text" class="form-control" placeholder="Your Address" aria-label="location" aria-describedby="search-input" />
       </div>
       <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645392959/booking-app/mapDemo_hsoarx.png" alt="" />
     </section>
     <section v-if="activeStep == 1" class="booking-app-step-1">
       <Header>
         <Calendar>
-          <DatePicker><strong>Start:</strong></DatePicker>
-          <DatePicker><strong>End:</strong></DatePicker>
+          <DatePicker><strong>Hire Start Day</strong></DatePicker>
+          <DatePicker><strong>Hire End Day</strong></DatePicker>
         </Calendar>
       </Header>
       <Main>
-        <span v-if="cart.length < 3" class="btn btn-warning text-white w-100">Minimum order value is 600 £</span>
-        <button v-else v-on:click="activeStep = 2" class="btn btn-success text-white w-100">Well Done! Go to next step!</button>
+        <span v-if="cart.length < 3" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
+        <button v-else v-on:click="activeStep = 2" class="btn btn-success text-white fs-5 w-100">Well Done! Go to next step!</button>
         <Categories>
           <CategoriesItem
             v-for="(category, index) in categories"
             v-on:click="toggleCategory(category)"
             v-bind:key="index"
-            :style="category.isActive ? { color: '#ffffff', border: '4px solid ' + category.color } : { backgroundColor: category.color, border: '4px solid ' + category.color }"
+            :style="category.isActive ? { backgroundColor: category.color, border: '4px solid ' + category.color } : { color: '#ffffff', border: '4px solid ' + category.color }"
             >{{ category.title }}</CategoriesItem
           >
         </Categories>
@@ -124,14 +124,14 @@ import CategoriesItem from './components/CategoriesItem/CategoriesItem.vue';
 import Carusele from './components/Carusele/Carusele.vue';
 export default defineComponent({
   setup() {
-    let activeStep = ref(0);
+    let activeStep = ref(1);
     let correctAddress = ref(false);
 
     let categories = reactive([
-      { title: 'Bouncy Castles', isActive: true, id: 0, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
-      { title: 'Slides', isActive: false, id: 1, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
-      { title: 'Mini Golf', isActive: false, id: 2, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) },
-      { title: 'Rodeo', isActive: false, id: 3, color: '#' + ((Math.random() * 0xbbbbbb) << 0).toString(16) }
+      { title: 'Bouncy Castles', isActive: true, id: 0, color: '#339966' },
+      { title: 'Slides', isActive: false, id: 1, color: '#000000' },
+      { title: 'Mini Golf', isActive: false, id: 2, color: '#cc3300' },
+      { title: 'Rodeo', isActive: false, id: 3, color: '#000066' }
     ]);
 
     var products = reactive([

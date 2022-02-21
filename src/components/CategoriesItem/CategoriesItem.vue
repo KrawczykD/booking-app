@@ -1,5 +1,5 @@
 <template>
-  <div class="badge rounded-pill m-1 booking-app-categories-items">
+  <div class="badge rounded-pill m-1 fs-6 booking-app-categories-items">
     <slot></slot>
   </div>
 </template>
@@ -10,4 +10,8 @@ import { defineComponent } from 'vue';
 export default defineComponent({});
 </script>
 
-<style></style>
+<style>
+.booking-app-categories-items {
+  cursor: pointer;
+}
+</style>
