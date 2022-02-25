@@ -13,13 +13,7 @@
       ></button>
     </div>
     <div class="carousel-inner">
-      <div
-        v-for="(slides, index) in splitedArrays"
-        v-bind:key="index"
-        :class="['carousel-item booking-app-carusel-item']"
-        :style="{ 'transition-duration': durationTime * 0.001 + 's' }"
-        :data-bs-interval="time"
-      >
+      <div v-for="(slides, index) in splitedArrays" v-bind:key="index" :class="['carousel-item booking-app-carusel-item']">
         <Goods>
           <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
             ><strong class="text-white fs-4 m-0">{{ slide.price }}</strong></GoodsItem
@@ -51,17 +45,9 @@ export default defineComponent({
       // eslint-disable-next-line vue/require-valid-default-prop
       default: []
     },
-    time: {
-      type: Number,
-      default: 10000
-    },
     controlsEnable: {
       type: Boolean,
       default: false
-    },
-    durationTime: {
-      type: Number,
-      default: 2000
     }
   },
   data: function () {
