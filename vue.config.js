@@ -28,5 +28,9 @@ module.exports = {
       options[0].ignore.push('bopr/**');
       return [options];
     });
+
+    config.externals({
+      leaflet: 'L'
+    });
   }
 };

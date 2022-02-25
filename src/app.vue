@@ -9,7 +9,7 @@
         <span v-on:click="correctAddress = true" class="btn border border-3 text-white" id="search-button"><i class="fas fa-search"></i></span>
         <input type="text" class="form-control" placeholder="Your Address" aria-label="location" aria-describedby="search-input" />
       </div>
-      <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645392959/booking-app/mapDemo_hsoarx.png" alt="" />
+      <Map></Map>
     </section>
     <section v-if="activeStep == 1" class="booking-app-step-1">
       <Header>
@@ -122,6 +122,7 @@ import CartItem from './components/CartItem/CartItem.vue';
 import Categories from './components/Categories/Categories.vue';
 import CategoriesItem from './components/CategoriesItem/CategoriesItem.vue';
 import Carusele from './components/Carusele/Carusele.vue';
+import Map from './components/Map/Map.vue';
 export default defineComponent({
   setup() {
     let activeStep = ref(0);
@@ -305,7 +306,7 @@ export default defineComponent({
     return { products, addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems, activeStep, correctAddress };
   },
 
-  components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele }
+  components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele, Map }
 });
 </script>
 

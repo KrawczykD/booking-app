@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "@types/gtag.js"
+      "@types/gtag.js",
+      "@types/leaflet"
     ],
     "paths": {
       "@/*": [
