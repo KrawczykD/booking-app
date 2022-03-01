@@ -10,4 +10,13 @@ import { defineComponent } from 'vue';
 export default defineComponent({});
 </script>
 
-<style></style>
+<style>
+.booking-app-cart {
+  max-height: 45vh;
+  overflow-y: auto;
+}
+
+.booking-app-cart::-webkit-scrollbar {
+  display: none;
+}
+</style>
