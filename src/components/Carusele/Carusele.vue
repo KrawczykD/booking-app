@@ -1,5 +1,5 @@
 <template>
-  <div v-show="splitedArrays.length !== 0" id="bookingappcarousel" class="carousel slide booking-app-carusel" data-bs-ride="carousel">
+  <div v-if="splitedArrays.length !== 0" id="bookingappcarousel" class="carousel slide booking-app-carusel" data-bs-ride="carousel">
     <div v-if="controlsEnable && splitedArrays.length !== 1" class="carousel-indicators booking-app-carusel-indicator-bar">
       <button
         v-for="(slides, index) in splitedArrays"
