@@ -13,7 +13,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle1_fgbg2u.jpg',
           price: '90£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 5
         },
         {
           title: 'Castle 1',
@@ -22,7 +23,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle5_lumom6.jpg',
           price: '91£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         },
         {
           title: 'Castle 2',
@@ -31,7 +33,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle1_fgbg2u.jpg',
           price: '92£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         },
         {
           title: 'Castle 3',
@@ -40,7 +43,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle5_lumom6.jpg',
           price: '93£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         },
         {
           title: 'Castle 4',
@@ -49,7 +53,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle2_x5pog8.jpg',
           price: '94£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 10
         },
         {
           title: 'Castle 5',
@@ -58,7 +63,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle2_x5pog8.jpg',
           price: '95£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 10
         },
         {
           title: 'Castle 6',
@@ -67,7 +73,8 @@ export const useStore = defineStore('main', {
           categoryId: 0,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394117/booking-app/castle6_y6k3pv.jpg',
           price: '96£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 10
         },
         {
           title: 'Slide',
@@ -76,7 +83,8 @@ export const useStore = defineStore('main', {
           categoryId: 1,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide2_bpordj.jpg',
           price: '90£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 8
         },
         {
           title: 'Slide 2',
@@ -85,7 +93,8 @@ export const useStore = defineStore('main', {
           categoryId: 1,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide6_fhbagl.jpg',
           price: '91£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 10
         },
         {
           title: 'Slide 3',
@@ -94,7 +103,8 @@ export const useStore = defineStore('main', {
           categoryId: 1,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide3_jpmr8g.jpg',
           price: '92£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 22
         },
         {
           title: 'Slide 4',
@@ -103,7 +113,8 @@ export const useStore = defineStore('main', {
           categoryId: 1,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide1_zipxh7.jpg',
           price: '93£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         },
         {
           title: 'Mini Golf',
@@ -112,7 +123,8 @@ export const useStore = defineStore('main', {
           categoryId: 2,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/golf1_phtmix.jpg',
           price: '90£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         },
         {
           title: 'Rodeo',
@@ -121,7 +133,8 @@ export const useStore = defineStore('main', {
           categoryId: 3,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/rodeo1_ietiph.jpg',
           price: '90£',
-          alt: 'img desc'
+          alt: 'img desc',
+          qty: 1
         }
       ],
 
