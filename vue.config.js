@@ -32,5 +32,12 @@ module.exports = {
     config.externals({
       leaflet: 'L'
     });
+
+    config.module
+      .rule('mjs')
+      .test(/\.mjs$/)
+      .type('javascript/auto')
+      .include.add(/node_modules/)
+      .end();
   }
 };
