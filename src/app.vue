@@ -35,11 +35,14 @@
           <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="item.imgsrc">
             <template v-slot:title
               >{{ item.title }}
-              <p>{{ item.price }}</p></template
-            >
+              <p>{{ item.price }}</p>
+              <p>{{ item.qty }}</p>
+            </template>
             <template v-slot:description>{{ item.description }}</template>
             <template v-slot:button>
-              <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">X</button>
+              <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">-</button>
+              <p class="btn">{{ item.qty }}</p>
+              <button v-on:click="addToCart(item.id)" class="btn btn-danger">+</button>
             </template>
           </CartItem>
         </Cart>

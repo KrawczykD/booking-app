@@ -22,8 +22,9 @@
       >
         <Goods>
           <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
-            ><strong class="text-white fs-4 m-0">{{ slide.price }}</strong></GoodsItem
-          >
+            ><strong class="text-white fs-4 m-0">{{ slide.price }}</strong>
+            <strong class="position-absolute top-50 text-warning fs-5" v-if="slide.qty < 1">Item is not avielable</strong>
+          </GoodsItem>
         </Goods>
       </div>
     </div>
