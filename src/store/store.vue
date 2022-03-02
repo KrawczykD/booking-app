@@ -147,7 +147,7 @@ export const useStore = defineStore('main', {
 
       cart: reactive([]) as Array<any>,
 
-      activeStep: reactive({ step: 1 }),
+      activeStep: reactive({ step: 0 }),
       correctAddress: reactive({ isValid: false })
     };
   },
