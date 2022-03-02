@@ -89,7 +89,7 @@ export const useStore = defineStore('main', {
         {
           title: 'Slide 2',
           description: 'test description for Slide 2',
-          id: 13,
+          id: 10,
           categoryId: 1,
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide6_fhbagl.jpg',
           price: '91£',
@@ -104,7 +104,7 @@ export const useStore = defineStore('main', {
           imgsrc: 'https://res.cloudinary.com/dmbylcnta/image/upload/w_300,h_300/v1645394849/booking-app/slide3_jpmr8g.jpg',
           price: '92£',
           alt: 'img desc',
-          qty: 22
+          qty: 5
         },
         {
           title: 'Slide 4',
@@ -147,22 +147,63 @@ export const useStore = defineStore('main', {
 
       cart: reactive([]) as Array<any>,
 
-      activeStep: reactive({ step: 0 }),
+      activeStep: reactive({ step: 1 }),
       correctAddress: reactive({ isValid: false })
     };
   },
 
   actions: {
+    // addToCart: function (id: number) {
+    //   let indexItemToRemove = this.products.findIndex((item) => item.id === id);
+    //   this.cart.push(this.products[indexItemToRemove]);
+    //   this.products.splice(indexItemToRemove, 1);
+    // },
+
     addToCart: function (id: number) {
-      let indexItemToRemove = this.products.findIndex((item) => item.id === id);
-      this.cart.push(this.products[indexItemToRemove]);
-      this.products.splice(indexItemToRemove, 1);
+      let productToAdd = this.products.find((item) => item.id === id);
+      let productExistingInCard = this.cart.find((item) => item.id === id);
+      if (productExistingInCard == undefined && productToAdd != undefined) {
+        if (productToAdd.qty > 0) {
+          let copyOfProductAddedToCart = Object.assign({}, productToAdd);
+          copyOfProductAddedToCart.qty = 1;
+          this.cart.push(copyOfProductAddedToCart);
+          productToAdd.qty -= 1;
+        }
+      }
+
+      if (productExistingInCard != undefined && productToAdd != undefined) {
+        if (productToAdd.qty > 0) {
+          productExistingInCard.qty += 1;
+          productToAdd.qty -= 1;
+        }
+      }
+      // this.cart.push(this.products[indexItemToRemove]);
+      // this.products.splice(indexItemToRemove, 1);
     },
+
+    // removeFromCart: function (id: number) {
+    //   let indexItemToRemove = this.cart.findIndex((item) => item.id === id);
+    //   this.products.push(this.cart[indexItemToRemove]);
+    //   this.cart.splice(indexItemToRemove, 1);
+    // },
 
     removeFromCart: function (id: number) {
       let indexItemToRemove = this.cart.findIndex((item) => item.id === id);
-      this.products.push(this.cart[indexItemToRemove]);
-      this.cart.splice(indexItemToRemove, 1);
+      let productExistingInCard = this.cart[indexItemToRemove];
+      if (productExistingInCard) {
+        if (productExistingInCard.qty > 2) {
+          productExistingInCard.qty -= 1;
+        } else {
+          this.cart.splice(indexItemToRemove, 1);
+        }
+
+        let product = this.products.find((item) => item.id === id);
+        if (product) {
+          product.qty += 1;
+        }
+      }
+      // this.cart.push(this.products[indexItemToRemove]);
+      // this.products.splice(indexItemToRemove, 1);
     },
 
     toggleCategory: function (categoryItem: any) {
