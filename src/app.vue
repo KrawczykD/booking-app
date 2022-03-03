@@ -35,13 +35,13 @@
           <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="item.imgsrc">
             <template v-slot:title
               >{{ item.title }}
-              <p>{{ item.price }}</p>
-              <p>{{ item.qty }}</p>
+              <p>{{ item.price }} £</p>
+              <p>{{ item.orderedQty }}</p>
             </template>
             <template v-slot:description>{{ item.description }}</template>
             <template v-slot:button>
               <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">-</button>
-              <p class="btn">{{ item.qty }}</p>
+              <p class="btn">{{ item.orderedQty }}</p>
               <button v-on:click="addToCart(item.id)" class="btn btn-danger">+</button>
             </template>
           </CartItem>
@@ -127,7 +127,7 @@ import CategoriesItem from './components/CategoriesItem/CategoriesItem.vue';
 import Carusele from './components/Carusele/Carusele.vue';
 import Map from './components/Map/Map.vue';
 
-import { useStore } from './store/store.vue';
+import useStore from './store/store.vue';
 export default defineComponent({
   setup() {
     const store = useStore();
