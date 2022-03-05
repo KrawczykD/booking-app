@@ -19,30 +19,42 @@
         </Calendar>
       </Header>
       <Main>
-        <span v-if="cart.length < 3" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
+        <span v-if="store.getCartValue(store.cart) < 600" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
         <button v-else v-on:click="activeStep.step = 2" class="btn btn-success text-white fs-5 w-100">Well Done! Go to next step!</button>
         <Categories>
           <CategoriesItem
             v-for="(category, index) in categories"
-            v-on:click="toggleCategory(category)"
+            v-on:click="toggleCategory(category, categories)"
             v-bind:key="index"
             :style="category.isActive ? { backgroundColor: category.color, border: '4px solid ' + category.color } : { color: '#ffffff', border: '4px solid ' + category.color }"
             >{{ category.title }}</CategoriesItem
           >
         </Categories>
-        <Carusele v-on:goodsItemClicked="addToCart" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+        <Carusele v-on:goodsItemClicked="addToCart($event, store.products, store.cart)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+        <span v-if="store.getCartValue(store.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.getCartValue(store.cart) }} £</span>
         <Cart>
           <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="item.imgsrc">
             <template v-slot:title
               >{{ item.title }}
               <p>{{ item.price }} £</p>
-              <p>{{ item.orderedQty }}</p>
             </template>
             <template v-slot:description>{{ item.description }}</template>
             <template v-slot:button>
-              <button v-on:click="removeFromCart(item.id)" class="btn btn-danger">-</button>
-              <p class="btn">{{ item.orderedQty }}</p>
-              <button v-on:click="addToCart(item.id)" class="btn btn-danger">+</button>
+              <!-- <ul class="pagination">
+                <li class="page-item" v-on:click="removeFromCart(item.id, store.cart)">
+                  <span class="page-link">-</span>
+                </li>
+                <li class="page-item disabled">
+                  <span class="page-link">{{ item.orderedQty }}</span>
+                </li>
+                <li :class="[item.maxQty == item.orderedQty ? 'disabled' : '', 'page-item']" v-on:click="addToCart(item.id, store.products, store.cart)">
+                  <span class="page-link">+</span>
+                </li>
+              </ul> -->
+
+              <button v-on:click="removeFromCart(item.id, store.cart)" class="btn btn-danger">-</button>
+              <span class="btn btn-secondary">{{ item.orderedQty }}</span>
+              <button :disabled="item.maxQty == item.orderedQty" v-on:click="addToCart(item.id, store.products, store.cart)" class="btn btn-success">+</button>
             </template>
           </CartItem>
         </Cart>

@@ -4,6 +4,9 @@ import { reactive } from 'vue';
 import IProduct from './IProduct';
 import ICategory from './ICategory';
 
+import { toggleCategory, addToCart, removeFromCart } from './actions';
+import { getCartValue } from './getters';
+
 const useStore = defineStore('main', () => {
   let products: Array<IProduct> = [
     {
@@ -160,90 +163,10 @@ const useStore = defineStore('main', () => {
 
   let cart = reactive([]) as Array<IProduct>;
 
-  let activeStep = reactive({ step: 0 });
+  let activeStep = reactive({ step: 1 });
   let correctAddress = reactive({ isValid: false });
 
-  // addToCart: function (id: number) {
-  //   let indexItemToRemove = this.products.findIndex((item) => item.id === id);
-  //   this.cart.push(this.products[indexItemToRemove]);
-  //   this.products.splice(indexItemToRemove, 1);
-  // },
-
-  let findProductById = function (array: Array<IProduct>, id: number) {
-    let product = undefined;
-    product = array.find((item) => item.id === id);
-    return product;
-  };
-
-  let addProductToArray = function (array: Array<IProduct>, product: IProduct) {
-    let copyOfProductAddedToCart = Object.assign({}, product);
-    copyOfProductAddedToCart.orderedQty = 1;
-    array.push(copyOfProductAddedToCart);
-  };
-
-  let removeProductFromArray = function (array: Array<IProduct>, id: number) {
-    let indexOfProductToRemove = -1;
-    indexOfProductToRemove = array.findIndex((item) => item.id === id);
-    if (indexOfProductToRemove !== -1) {
-      array.splice(indexOfProductToRemove, 1);
-    }
-  };
-
-  let increaseOrderedQty = function (product: IProduct) {
-    product.orderedQty += 1;
-  };
-
-  let decreaseOrderedQty = function (product: IProduct) {
-    product.orderedQty -= 1;
-  };
-
-  let addToCart = function (id: number) {
-    let productToAdd = findProductById(products, id);
-    let productExistingInCart = findProductById(cart, id);
-    if (productExistingInCart == undefined && productToAdd != undefined) {
-      if (productToAdd.maxQty > productToAdd.orderedQty) {
-        addProductToArray(cart, productToAdd);
-      }
-    }
-
-    if (productExistingInCart != undefined && productToAdd != undefined) {
-      if (productExistingInCart.maxQty > productExistingInCart.orderedQty) {
-        increaseOrderedQty(productExistingInCart);
-        increaseOrderedQty(productToAdd);
-      }
-    }
-    // this.cart.push(this.products[indexItemToRemove]);
-    // this.products.splice(indexItemToRemove, 1);
-  };
-
-  // removeFromCart: function (id: number) {
-  //   let indexItemToRemove = this.cart.findIndex((item) => item.id === id);
-  //   this.products.push(this.cart[indexItemToRemove]);
-  //   this.cart.splice(indexItemToRemove, 1);
-  // },
-
-  let removeFromCart = function (id: number) {
-    let productExistingInCart = findProductById(cart, id);
-    if (productExistingInCart) {
-      if (productExistingInCart.orderedQty > 1) {
-        decreaseOrderedQty(productExistingInCart);
-      } else {
-        removeProductFromArray(cart, productExistingInCart.id);
-      }
-    }
-    // this.cart.push(this.products[indexItemToRemove]);
-    // this.products.splice(indexItemToRemove, 1);
-  };
-
-  let toggleCategory = function (categoryItem: ICategory) {
-    categories.forEach((category) => {
-      category.isActive = false;
-    });
-
-    categoryItem.isActive = true;
-  };
-
-  return { products, categories, cart, activeStep, correctAddress, addToCart, removeFromCart, toggleCategory };
+  return { products, categories, cart, activeStep, correctAddress, addToCart, removeFromCart, toggleCategory, getCartValue };
 });
 
 export default useStore;
