@@ -22,4 +22,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.booking-app-goods-item {
+  cursor: pointer;
+}
+</style>

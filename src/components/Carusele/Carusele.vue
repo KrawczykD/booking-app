@@ -21,13 +21,7 @@
         :data-bs-interval="time"
       >
         <Goods>
-          <GoodsItem
-            :class="[slide.maxQty == slide.orderedQty ? 'goods-item-sold-out-overlay' : '']"
-            v-for="(slide, index) in slides"
-            :key="index"
-            v-on:click="goodsItemClick(slide.id)"
-            :id="slide.id"
-            :imgsrc="slide.imgsrc"
+          <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
             ><strong class="text-white fs-4 m-0">{{ slide.price }} £</strong>
           </GoodsItem>
         </Goods>
@@ -141,6 +135,22 @@ export default defineComponent({
 </script>
 
 <style>
+.carousel-control-prev,
+.carousel-control-next {
+  width: 0;
+}
+
+/* .carousel-control-next-icon::before,
+.carousel-control-prev-icon::before {
+  content: '';
+  padding: 1.4rem;
+  display: block;
+  border: 2px solid white;
+  border-radius: 50%;
+  position: absolute;
+  top: -0.4rem;
+  left: -0.6rem;
+} */
 .carousel-control-next-icon {
   position: absolute;
   bottom: 0;
@@ -157,24 +167,5 @@ export default defineComponent({
 
 .booking-app-carusel-indicator-bar {
   margin-bottom: -0.5rem;
-}
-
-.goods-item-sold-out-overlay {
-  position: relative;
-}
-
-.goods-item-sold-out-overlay::before {
-  content: 'Sold Out!';
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  height: 76%;
-  width: 100%;
-  font-size: 1.5rem;
-  background: rgba(0, 0, 0, 0.5);
 }
 </style>
