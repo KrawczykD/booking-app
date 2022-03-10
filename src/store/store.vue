@@ -5,7 +5,7 @@ import IProduct from './IProduct';
 import ICategory from './ICategory';
 import { ICartItem } from './ICartItem';
 
-import { toggleCategory, addToCart, removeFromCart } from './actions';
+import { toggleCategory, addToCart, removeFromCart, findProductById } from './actions';
 import { getCartValue } from './getters';
 
 const useStore = defineStore('main', () => {
@@ -167,7 +167,7 @@ const useStore = defineStore('main', () => {
   let activeStep = reactive({ step: 1 });
   let correctAddress = reactive({ isValid: false });
 
-  return { products, categories, cart, activeStep, correctAddress, addToCart, removeFromCart, toggleCategory, getCartValue };
+  return { products, categories, cart, activeStep, correctAddress, addToCart, removeFromCart, toggleCategory, getCartValue, findProductById };
 });
 
 export default useStore;

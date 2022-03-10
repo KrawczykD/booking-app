@@ -21,7 +21,7 @@
         :data-bs-interval="time"
       >
         <Goods>
-          <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide.id)" :id="slide.id" :imgsrc="slide.imgsrc"
+          <GoodsItem v-for="(slide, index) in slides" :key="index" v-on:click="goodsItemClick(slide)" :id="slide.id" :imgsrc="slide.imgsrc"
             ><strong class="text-white fs-4 m-0">{{ slide.price }} £</strong>
           </GoodsItem>
         </Goods>
@@ -39,6 +39,7 @@
 </template>
 
 <script lang="ts">
+import IProduct from '@/store/IProduct';
 import { defineComponent } from 'vue';
 import Goods from '../Goods/Goods.vue';
 import GoodsItem from '../GoodsItem/GoodsItem.vue';
@@ -91,8 +92,8 @@ export default defineComponent({
     });
   },
   methods: {
-    goodsItemClick(id: number) {
-      this.$emit('goodsItemClicked', id);
+    goodsItemClick(item: IProduct) {
+      this.$emit('goodsItemClicked', item);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     splitItemsToArrays(slides: Array<any>) {

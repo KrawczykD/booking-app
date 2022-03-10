@@ -11,12 +11,6 @@ const decreaseOrderedQty = function (product: IProduct | ICartItem): void {
   product.orderedQty -= 1;
 };
 
-const findProductById = function (array: Array<IProduct>, id: number): IProduct | undefined {
-  let product = undefined;
-  product = array.find((item) => item.id === id);
-  return product;
-};
-
 const findCartItemById = function (array: Array<ICartItem>, id: number) {
   let cartItem = null;
   cartItem = array.find((item) => item.id === id);
@@ -47,6 +41,11 @@ export const toggleCategory = function (categoryItem: ICategory, categories: Arr
   categoryItem.isActive = true;
 };
 
+export const findProductById = function (array: Array<IProduct>, id: number): IProduct | undefined {
+  let product = null;
+  product = array.find((item) => item.id === id);
+  return product;
+};
 // export const addToCart = function (id: number, products: Array<IProduct>, cart: Array<IProduct>): void {
 //   const productToAdd = findProductById(products, id);
 //   const productExistingInCart = findProductById(cart, id);
@@ -65,25 +64,37 @@ export const toggleCategory = function (categoryItem: ICategory, categories: Arr
 //   }
 // };
 
-export const addToCart = function (id: number, cart: Array<ICartItem>): void {
-  const foundedItem = findCartItemById(cart, id) as ICartItem | null;
+export const addToCart = function (item: IProduct, cart: Array<ICartItem>): void {
+  const foundedItem = findCartItemById(cart, item.id) as ICartItem | null;
 
   if (foundedItem) {
-    increaseOrderedQty(foundedItem);
+    if (foundedItem.orderedQty < item.maxQty) {
+      increaseOrderedQty(foundedItem);
+    }
   } else {
-    const newItem = new CartItem();
-    cart.push(newItem);
+    const newItem = new CartItem(item.id);
+    addProductToArray(cart, newItem);
   }
 };
 
-export const removeFromCart = function (id: number, cart: Array<IProduct>): void {
-  const productExistingInCart: IProduct | undefined = findProductById(cart, id);
-  if (productExistingInCart) {
-    if (productExistingInCart.orderedQty > 1) {
-      decreaseOrderedQty(productExistingInCart);
-    } else {
-      decreaseOrderedQty(productExistingInCart);
-      removeProductFromArray(cart, productExistingInCart.id);
+export const removeFromCart = function (item: ICartItem, cart: Array<ICartItem>): void {
+  const productInCart = findCartItemById(cart, item.id) as ICartItem | null;
+  if (productInCart) {
+    decreaseOrderedQty(productInCart);
+    if (productInCart.orderedQty < 1) {
+      removeProductFromArray(cart, productInCart.id);
     }
   }
 };
+
+// export const removeFromCart = function (id: number, cart: Array<IProduct>): void {
+//   const productExistingInCart: IProduct | undefined = findProductById(cart, id);
+//   if (productExistingInCart) {
+//     if (productExistingInCart.orderedQty > 1) {
+//       decreaseOrderedQty(productExistingInCart);
+//     } else {
+//       decreaseOrderedQty(productExistingInCart);
+//       removeProductFromArray(cart, productExistingInCart.id);
+//     }
+//   }
+// };

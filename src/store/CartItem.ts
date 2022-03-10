@@ -1,6 +1,10 @@
 import { ICartItem } from './ICartItem';
 
 export class CartItem implements ICartItem {
-  orderedQty = 0;
-  id = 0;
+  id: number;
+  orderedQty: number;
+  constructor(id: number) {
+    this.id = id;
+    this.orderedQty = 0;
+  }
 }

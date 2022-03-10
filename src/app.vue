@@ -30,15 +30,15 @@
             >{{ category.title }}</CategoriesItem
           >
         </Categories>
-        <Carusele v-on:goodsItemClicked="addToCart($event, store.products, store.cart)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+        <Carusele v-on:goodsItemClicked="addToCart($event, store.cart)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
         <span v-if="store.getCartValue(store.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.getCartValue(store.cart) }} £</span>
         <Cart>
-          <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="item.imgsrc">
+          <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:imgsrc="findProductById(store.products, item.id).imgsrc">
             <template v-slot:title
-              >{{ item.title }}
-              <p>{{ item.price }} £</p>
+              >{{ findProductById(store.products, item.id).title }}
+              <p>{{ findProductById(store.products, item.id).price }} £</p>
             </template>
-            <template v-slot:description>{{ item.description }}</template>
+            <template v-slot:description>{{ findProductById(store.products, item.id).description }}</template>
             <template v-slot:button>
               <!-- <ul class="pagination">
                 <li class="page-item" v-on:click="removeFromCart(item.id, store.cart)">
@@ -52,9 +52,9 @@
                 </li>
               </ul> -->
 
-              <button v-on:click="removeFromCart(item.id, store.cart)" class="btn btn-danger">-</button>
+              <button v-on:click="removeFromCart(item, store.cart)" class="btn btn-danger">-</button>
               <span class="btn btn-secondary">{{ item.orderedQty }}</span>
-              <button :disabled="item.maxQty == item.orderedQty" v-on:click="addToCart(item.id, store.products, store.cart)" class="btn btn-success">+</button>
+              <button v-on:click="addToCart(findProductById(store.products, item.id), store.cart)" class="btn btn-success">+</button>
             </template>
           </CartItem>
         </Cart>
@@ -144,7 +144,7 @@ import IProduct from './store/IProduct';
 export default defineComponent({
   setup() {
     const store = useStore();
-    const { categories, cart, products, addToCart, removeFromCart, toggleCategory, activeStep, correctAddress } = store;
+    const { categories, cart, products, addToCart, removeFromCart, toggleCategory, activeStep, correctAddress, findProductById } = store;
 
     let filteredItems = computed(() => filterItemsByCategory());
 
@@ -167,7 +167,7 @@ export default defineComponent({
       return filteredArray;
     };
 
-    return { addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems, activeStep, correctAddress, store };
+    return { addToCart, cart, removeFromCart, categories, toggleCategory, filteredItems, activeStep, correctAddress, store, findProductById };
   },
 
   components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele, Map }
