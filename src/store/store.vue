@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 import IProduct from './IProduct';
 import ICategory from './ICategory';
+import { ICartItem } from './ICartItem';
 
 import { toggleCategory, addToCart, removeFromCart } from './actions';
 import { getCartValue } from './getters';
@@ -161,7 +162,7 @@ const useStore = defineStore('main', () => {
     { title: 'Rodeo', isActive: false, id: 3, color: '#000066' }
   ];
 
-  let cart = reactive([]) as Array<IProduct>;
+  let cart = reactive([]) as Array<ICartItem>;
 
   let activeStep = reactive({ step: 1 });
   let correctAddress = reactive({ isValid: false });

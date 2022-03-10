@@ -1,11 +1,13 @@
+import { CartItem } from './CartItem';
+import { ICartItem } from './ICartItem';
 import ICategory from './ICategory';
 import IProduct from './IProduct';
 // actions helpers
-const increaseOrderedQty = function (product: IProduct): void {
+const increaseOrderedQty = function (product: IProduct | ICartItem): void {
   product.orderedQty += 1;
 };
 
-const decreaseOrderedQty = function (product: IProduct): void {
+const decreaseOrderedQty = function (product: IProduct | ICartItem): void {
   product.orderedQty -= 1;
 };
 
@@ -15,14 +17,20 @@ const findProductById = function (array: Array<IProduct>, id: number): IProduct 
   return product;
 };
 
-const addProductToArray = function (array: Array<IProduct>, product: IProduct): void {
+const findCartItemById = function (array: Array<ICartItem>, id: number) {
+  let cartItem = null;
+  cartItem = array.find((item) => item.id === id);
+  return cartItem;
+};
+
+const addProductToArray = function (array: Array<IProduct | ICartItem>, product: IProduct | ICartItem): void {
   //const copyOfProductAddedToCart = Object.assign({}, product);
   //   copyOfProductAddedToCart.orderedQty = 1;
   //array.push(copyOfProductAddedToCart);
   array.push(product);
 };
 
-const removeProductFromArray = function (array: Array<IProduct>, id: number): void {
+const removeProductFromArray = function (array: Array<IProduct | ICartItem>, id: number): void {
   let indexOfProductToRemove = -1;
   indexOfProductToRemove = array.findIndex((item) => item.id === id);
   if (indexOfProductToRemove !== -1) {
@@ -39,21 +47,32 @@ export const toggleCategory = function (categoryItem: ICategory, categories: Arr
   categoryItem.isActive = true;
 };
 
-export const addToCart = function (id: number, products: Array<IProduct>, cart: Array<IProduct>): void {
-  const productToAdd = findProductById(products, id);
-  const productExistingInCart = findProductById(cart, id);
-  if (productExistingInCart == undefined && productToAdd != undefined) {
-    if (productToAdd.maxQty > productToAdd.orderedQty) {
-      productToAdd.orderedQty += 1;
-      addProductToArray(cart, productToAdd);
-    }
-  }
+// export const addToCart = function (id: number, products: Array<IProduct>, cart: Array<IProduct>): void {
+//   const productToAdd = findProductById(products, id);
+//   const productExistingInCart = findProductById(cart, id);
+//   if (productExistingInCart == undefined && productToAdd != undefined) {
+//     if (productToAdd.maxQty > productToAdd.orderedQty) {
+//       productToAdd.orderedQty += 1;
+//       addProductToArray(cart, productToAdd);
+//     }
+//   }
 
-  if (productExistingInCart != undefined && productToAdd != undefined) {
-    if (productExistingInCart.maxQty > productExistingInCart.orderedQty) {
-      increaseOrderedQty(productExistingInCart);
-      //increaseOrderedQty(productToAdd);
-    }
+//   if (productExistingInCart != undefined && productToAdd != undefined) {
+//     if (productExistingInCart.maxQty > productExistingInCart.orderedQty) {
+//       increaseOrderedQty(productExistingInCart);
+//       //increaseOrderedQty(productToAdd);
+//     }
+//   }
+// };
+
+export const addToCart = function (id: number, cart: Array<ICartItem>): void {
+  const foundedItem = findCartItemById(cart, id) as ICartItem | null;
+
+  if (foundedItem) {
+    increaseOrderedQty(foundedItem);
+  } else {
+    const newItem = new CartItem();
+    cart.push(newItem);
   }
 };
 
