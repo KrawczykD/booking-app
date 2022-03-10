@@ -140,6 +140,7 @@ import Carusele from './components/Carusele/Carusele.vue';
 import Map from './components/Map/Map.vue';
 
 import useStore from './store/store.vue';
+import IProduct from './store/IProduct';
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -157,7 +158,7 @@ export default defineComponent({
     };
 
     let filterItemsByCategory = function () {
-      let filteredArray: Array<any> = [];
+      let filteredArray: Array<IProduct> = [];
 
       let activeCategoryId = getActiveCategoryId();
 
