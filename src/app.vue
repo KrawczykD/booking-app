@@ -33,7 +33,7 @@
         <Carusele v-on:goodsItemClicked="store.cart.addToCart($event)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
         <span v-if="store.getCartValue(store.cart.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.getCartValue(store.cart.cart) }} £</span>
         <Cart>
-          <CartItem v-for="(item, index) in store.cart.cart" v-bind:key="index" v-bind:imgsrc="getProductById(store.products, item.id).imgsrc">
+          <CartItem v-for="(item, index) in store.cart.cart" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(store.products, item.id).imgsrc">
             <template v-slot:title
               >{{ getProductById(store.products, item.id).title }}
               <p>{{ getProductById(store.products, item.id).price }} £</p>
