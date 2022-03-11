@@ -4,24 +4,24 @@ import { ICartItem } from './ICartItem';
 import IProduct from '../IProduct';
 
 export class Cart {
-  cart: Array<ICartItem>;
+  #cart: Array<ICartItem>;
   constructor(cart: Array<ICartItem>) {
-    this.cart = cart;
+    this.#cart = cart;
   }
 
   addToCart = (product: IProduct): void => {
-    addToCart(product, this.cart);
+    addToCart(product, this.#cart);
   };
 
   removeFromCart = (product: ICartItem): void => {
-    removeFromCart(product, this.cart);
+    removeFromCart(product, this.#cart);
   };
 
   getCartValue = (): number => {
-    return getCartValue(this.cart);
+    return getCartValue(this.#cart);
   };
 
   getCartItemById = (id: number): ICartItem | undefined => {
-    return getCartItemById(this.cart, id);
+    return getCartItemById(this.#cart, id);
   };
 }

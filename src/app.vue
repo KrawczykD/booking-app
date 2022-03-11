@@ -145,8 +145,6 @@ export default defineComponent({
       return filteredArray;
     };
 
-    console.log(cart);
-
     return { cart, products, categories, filteredItems, activeStep, correctAddress, store, getProductById, useCart };
   },
 
