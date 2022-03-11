@@ -2,13 +2,13 @@
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 import IProduct from './IProduct';
-import ICategory from './ICategory';
-
-import { toggleCategory, addToCart, removeFromCart } from './actions';
+import { Cart } from './Cart/Cart';
+import { Categories } from './Categories/Categories';
+import { getProductById } from './getters';
 import { getCartValue } from './getters';
 
 const useStore = defineStore('main', () => {
-  let products: Array<IProduct> = [
+  const products: Array<IProduct> = [
     {
       title: 'Castle',
       description: 'test description for castle',
@@ -154,19 +154,23 @@ const useStore = defineStore('main', () => {
     }
   ];
 
-  let categories: Array<ICategory> = [
+  const categories = new Categories([
     { title: 'Bouncy Castles', isActive: true, id: 0, color: '#339966' },
     { title: 'Slides', isActive: false, id: 1, color: '#000000' },
     { title: 'Mini Golf', isActive: false, id: 2, color: '#cc3300' },
     { title: 'Rodeo', isActive: false, id: 3, color: '#000066' }
-  ];
+  ]);
+  // make categories reactive
+  categories.categories = reactive(categories.categories);
 
-  let cart = reactive([]) as Array<IProduct>;
+  const cart = new Cart();
+  // make cart reactive
+  cart.cart = reactive(cart.cart);
 
   let activeStep = reactive({ step: 1 });
   let correctAddress = reactive({ isValid: false });
 
-  return { products, categories, cart, activeStep, correctAddress, addToCart, removeFromCart, toggleCategory, getCartValue };
+  return { products, categories, cart, activeStep, correctAddress, getCartValue, getProductById };
 });
 
 export default useStore;
