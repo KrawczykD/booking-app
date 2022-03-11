@@ -5,7 +5,6 @@ import IProduct from './IProduct';
 import { Cart } from './Cart/Cart';
 import { Categories } from './Categories/Categories';
 import { getProductById } from './getters';
-import { getCartValue } from './getters';
 
 const useStore = defineStore('main', () => {
   const products: Array<IProduct> = [
@@ -169,7 +168,7 @@ const useStore = defineStore('main', () => {
   let activeStep = reactive({ step: 0 });
   let correctAddress = reactive({ isValid: false });
 
-  return { products, categories, cart, activeStep, correctAddress, getCartValue, getProductById };
+  return { products, categories, cart, activeStep, correctAddress, getProductById };
 });
 
 export default useStore;

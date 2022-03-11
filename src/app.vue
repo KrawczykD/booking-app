@@ -19,7 +19,7 @@
         </Calendar>
       </Header>
       <Main>
-        <span v-if="store.getCartValue(store.cart.cart) < 600" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
+        <span v-if="store.cart.getCartValue(store.cart.cart) < 600" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
         <button v-else v-on:click="activeStep.step = 2" class="btn btn-success text-white fs-5 w-100">Well Done! Go to next step!</button>
         <Categories>
           <CategoriesItem
@@ -31,7 +31,7 @@
           >
         </Categories>
         <Carusele v-on:goodsItemClicked="store.cart.addToCart($event)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
-        <span v-if="store.getCartValue(store.cart.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.getCartValue(store.cart.cart) }} £</span>
+        <span v-if="store.cart.getCartValue(store.cart.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.cart.getCartValue(store.cart.cart) }} £</span>
         <Cart>
           <CartItem v-for="(item, index) in store.cart.cart" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(store.products, item.id).imgsrc">
             <template v-slot:title
@@ -148,19 +148,10 @@ export default defineComponent({
 
     let filteredItems = computed(() => filterItemsByCategory());
 
-    let getActiveCategoryId = function () {
-      let activeCaytegoryId = 0;
-      let activeCategory = categories.categories.find((category) => category.isActive);
-
-      activeCategory ? (activeCaytegoryId = activeCategory.id) : 0;
-
-      return activeCaytegoryId;
-    };
-
     let filterItemsByCategory = function () {
       let filteredArray: Array<IProduct> = [];
 
-      let activeCategoryId = getActiveCategoryId();
+      let activeCategoryId = categories.getActiveCategoryId();
 
       filteredArray = products.filter((item) => item.categoryId === activeCategoryId);
 

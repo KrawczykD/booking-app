@@ -7,3 +7,12 @@ export const toggleCategory = function (categoryItem: ICategory, categories: Arr
 
   categoryItem.isActive = true;
 };
+
+export const getActiveCategoryId = function (categories: Array<ICategory>): number {
+  let activeCaytegoryId = 0;
+  const activeCategory = categories.find((category) => category.isActive);
+
+  activeCategory ? (activeCaytegoryId = activeCategory.id) : 0;
+
+  return activeCaytegoryId;
+};
