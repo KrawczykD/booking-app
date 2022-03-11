@@ -24,4 +24,8 @@ export class Cart {
   getCartItemById = (id: number): ICartItem | undefined => {
     return getCartItemById(this.#cart, id);
   };
+
+  getCart = () => {
+    return this.#cart;
+  };
 }

@@ -168,7 +168,7 @@ const useStore = defineStore('main', () => {
   let activeStep = reactive({ step: 0 });
   let correctAddress = reactive({ isValid: false });
 
-  return { products, categories, cart, activeStep, correctAddress, getProductById, useCart };
+  return { products, categories, activeStep, correctAddress, getProductById, useCart };
 });
 
 export default useStore;

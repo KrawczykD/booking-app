@@ -32,7 +32,7 @@
         <Carusele v-on:goodsItemClicked="useCart.addToCart($event)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
         <span v-if="useCart.getCartValue() > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ useCart.getCartValue() }} £</span>
         <Cart>
-          <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(products, item.id).imgsrc">
+          <CartItem v-for="(item, index) in useCart.getCart()" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(products, item.id).imgsrc">
             <template v-slot:title
               >{{ getProductById(products, item.id).title }}
               <p>{{ getProductById(products, item.id).price }} £</p>
@@ -131,7 +131,7 @@ import IProduct from './store/IProduct';
 export default defineComponent({
   setup() {
     const store = useStore();
-    const { categories, cart, products, activeStep, correctAddress, getProductById, useCart } = store;
+    const { categories, products, activeStep, correctAddress, getProductById, useCart } = store;
 
     let filteredItems = computed(() => filterItemsByCategory());
 
@@ -145,7 +145,7 @@ export default defineComponent({
       return filteredArray;
     };
 
-    return { cart, products, categories, filteredItems, activeStep, correctAddress, store, getProductById, useCart };
+    return { products, categories, filteredItems, activeStep, correctAddress, store, getProductById, useCart };
   },
 
   components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele, Map }
