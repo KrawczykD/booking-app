@@ -5,6 +5,7 @@ import IProduct from './IProduct';
 import { Cart } from './Cart/Cart';
 import { Categories } from './Categories/Categories';
 import { getProductById } from './getters';
+import { ICartItem } from './Cart/ICartItem';
 
 const useStore = defineStore('main', () => {
   const products: Array<IProduct> = [
@@ -161,14 +162,13 @@ const useStore = defineStore('main', () => {
   // make categories reactive
   categories.categories = reactive(categories.categories);
 
-  const cart = new Cart();
-  // make cart reactive
-  cart.cart = reactive(cart.cart);
+  const cart: Array<ICartItem> = reactive([]);
+  const useCart = new Cart(cart);
 
   let activeStep = reactive({ step: 0 });
   let correctAddress = reactive({ isValid: false });
 
-  return { products, categories, cart, activeStep, correctAddress, getProductById };
+  return { products, categories, cart, activeStep, correctAddress, getProductById, useCart };
 });
 
 export default useStore;

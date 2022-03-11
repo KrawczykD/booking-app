@@ -5,8 +5,8 @@ import IProduct from '../IProduct';
 
 export class Cart {
   cart: Array<ICartItem>;
-  constructor() {
-    this.cart = [];
+  constructor(cart: Array<ICartItem>) {
+    this.cart = cart;
   }
 
   addToCart = (product: IProduct): void => {

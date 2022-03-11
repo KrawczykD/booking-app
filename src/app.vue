@@ -18,30 +18,30 @@
         </Calendar>
       </Header>
       <Main>
-        <span v-if="store.cart.getCartValue(store.cart.cart) < 600" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
+        <span v-if="useCart.getCartValue() < 600" class="btn btn-warning text-dark fs-5 w-100">Minimum order value is 600 £</span>
         <button v-else v-on:click="activeStep.step = 2" class="btn btn-success text-white fs-5 w-100">Well Done! Go to next step!</button>
         <Categories>
           <CategoriesItem
-            v-for="(category, index) in store.categories.categories"
-            v-on:click="store.categories.toggleCategory(category, store.categories.categories)"
+            v-for="(category, index) in categories.categories"
+            v-on:click="categories.toggleCategory(category, categories.categories)"
             v-bind:key="index"
             :style="category.isActive ? { backgroundColor: category.color, border: '4px solid ' + category.color } : { color: '#ffffff', border: '4px solid ' + category.color }"
             >{{ category.title }}</CategoriesItem
           >
         </Categories>
-        <Carusele v-on:goodsItemClicked="store.cart.addToCart($event)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
-        <span v-if="store.cart.getCartValue(store.cart.cart) > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ store.cart.getCartValue(store.cart.cart) }} £</span>
+        <Carusele v-on:goodsItemClicked="useCart.addToCart($event)" v-bind:slides="filteredItems" v-bind:controlsEnable="true" v-bind:durationTime="1000"></Carusele>
+        <span v-if="useCart.getCartValue() > 0" class="btn btn-info text-dark fs-5 w-100 my-2">Your Order Value {{ useCart.getCartValue() }} £</span>
         <Cart>
-          <CartItem v-for="(item, index) in store.cart.cart" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(store.products, item.id).imgsrc">
+          <CartItem v-for="(item, index) in cart" v-bind:key="index" v-bind:id="index" v-bind:imgsrc="getProductById(products, item.id).imgsrc">
             <template v-slot:title
-              >{{ getProductById(store.products, item.id).title }}
-              <p>{{ getProductById(store.products, item.id).price }} £</p>
+              >{{ getProductById(products, item.id).title }}
+              <p>{{ getProductById(products, item.id).price }} £</p>
             </template>
-            <template v-slot:description>{{ getProductById(store.products, item.id).description }}</template>
+            <template v-slot:description>{{ getProductById(products, item.id).description }}</template>
             <template v-slot:button>
-              <button v-on:click="store.cart.removeFromCart(item)" class="btn btn-danger">-</button>
+              <button v-on:click="useCart.removeFromCart(item)" class="btn btn-danger">-</button>
               <span class="btn btn-secondary">{{ item.orderedQty }}</span>
-              <button v-on:click="store.cart.addToCart(getProductById(store.products, item.id))" class="btn btn-success">+</button>
+              <button v-on:click="useCart.addToCart(getProductById(products, item.id))" class="btn btn-success">+</button>
             </template>
           </CartItem>
         </Cart>
@@ -131,7 +131,7 @@ import IProduct from './store/IProduct';
 export default defineComponent({
   setup() {
     const store = useStore();
-    const { categories, cart, products, activeStep, correctAddress, getProductById } = store;
+    const { categories, cart, products, activeStep, correctAddress, getProductById, useCart } = store;
 
     let filteredItems = computed(() => filterItemsByCategory());
 
@@ -145,7 +145,9 @@ export default defineComponent({
       return filteredArray;
     };
 
-    return { cart, categories, filteredItems, activeStep, correctAddress, store, getProductById };
+    console.log(cart);
+
+    return { cart, products, categories, filteredItems, activeStep, correctAddress, store, getProductById, useCart };
   },
 
   components: { Layout, Header, DatePicker, Calendar, Main, Cart, CartItem, Categories, CategoriesItem, Carusele, Map }
