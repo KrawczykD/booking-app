@@ -21,7 +21,7 @@ export class Cart {
     return getCartValue(this.cart);
   };
 
-  getCartItemById = (id: number) => {
-    getCartItemById(this.cart, id);
+  getCartItemById = (id: number): ICartItem | undefined => {
+    return getCartItemById(this.cart, id);
   };
 }

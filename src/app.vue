@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 <template>
   <Layout>
     <img class="img-fluid" src="https://res.cloudinary.com/dmbylcnta/image/upload/v1645395772/booking-app/bcnLogo_ahnnr6.png" alt="" srcset="" />
@@ -40,18 +39,6 @@
             </template>
             <template v-slot:description>{{ getProductById(store.products, item.id).description }}</template>
             <template v-slot:button>
-              <!-- <ul class="pagination">
-                <li class="page-item" v-on:click="removeFromCart(item.id, store.cart.cart)">
-                  <span class="page-link">-</span>
-                </li>
-                <li class="page-item disabled">
-                  <span class="page-link">{{ item.orderedQty }}</span>
-                </li>
-                <li :class="[item.maxQty == item.orderedQty ? 'disabled' : '', 'page-item']" v-on:click="addToCart(item.id, store.products, store.cart.cart)">
-                  <span class="page-link">+</span>
-                </li>
-              </ul> -->
-
               <button v-on:click="store.cart.removeFromCart(item)" class="btn btn-danger">-</button>
               <span class="btn btn-secondary">{{ item.orderedQty }}</span>
               <button v-on:click="store.cart.addToCart(getProductById(store.products, item.id))" class="btn btn-success">+</button>
