@@ -153,7 +153,6 @@ const useStore = defineStore('main', () => {
       maxQty: 1
     }
   ];
-
   const categories = new Categories([
     { title: 'Bouncy Castles', isActive: true, id: 0, color: '#339966' },
     { title: 'Slides', isActive: false, id: 1, color: '#000000' },
@@ -167,7 +166,7 @@ const useStore = defineStore('main', () => {
   // make cart reactive
   cart.cart = reactive(cart.cart);
 
-  let activeStep = reactive({ step: 1 });
+  let activeStep = reactive({ step: 0 });
   let correctAddress = reactive({ isValid: false });
 
   return { products, categories, cart, activeStep, correctAddress, getCartValue, getProductById };
