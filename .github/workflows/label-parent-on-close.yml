@@ -13,7 +13,7 @@ jobs:
           sudo apt update
           sudo apt install -y gh
 
-      - name: Extract Parent Issue and Apply Label
+      - name: Extract Parent Issue and Check Labels
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY: ${{ github.repository }} # Automatically sets the repo context
@@ -23,8 +23,14 @@ jobs:
 
           # Check if the parent issue ID was found
           if [ -n "$PARENT_ISSUE" ]; then
-            # Add the "needs retest" label to the parent issue, explicitly setting the repo context
-            gh issue edit "$PARENT_ISSUE" --add-label "needs retest" --repo "$REPOSITORY"
+            # Check if the parent issue has the "test" label
+            if gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq '.labels | any(.name == "test")'; then
+              # If the "test" label is present, add the "test:require:retest" label
+              gh issue edit "$PARENT_ISSUE" --add-label "test:require:retest" --repo "$REPOSITORY"
+              echo "Added 'test:require:retest' label to parent issue #$PARENT_ISSUE."
+            else
+              echo "Parent issue #$PARENT_ISSUE does not have the 'test' label. No action taken."
+            fi
           else
             echo "No parent issue found in the child issue body."
           fi
