@@ -1,0 +1,29 @@
+name: Label Parent Issue on Child Issue Close
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  label-parent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Extract Parent Issue and Apply Label
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract parent issue ID from the child issue body (e.g., #536)
+          PARENT_ISSUE=$(echo "${{ github.event.issue.body }}" | grep -oP '(?<=#)\d+')
+
+          # Check if the parent issue ID was found
+          if [ -n "$PARENT_ISSUE" ]; then
+            # Add the "needs retest" label to the parent issue
+            gh issue edit $PARENT_ISSUE --add-label "needs retest"
+          else
+            echo "No parent issue found in the child issue body."
+          fi
