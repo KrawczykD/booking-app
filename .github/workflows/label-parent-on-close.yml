@@ -17,18 +17,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY: ${{ github.repository }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
           PERFORMED_VIA_GITHUB_APP: ${{ github.event.issue.performed_via_github_app }}
         run: |
-          # Extract parent issue ID from the child issue body using sed
+          # Fetch the issue body
+          ISSUE_BODY=$(gh issue view "$ISSUE_NUMBER" --repo "$REPOSITORY" --json body --jq '.body')
+
+          # Extract parent issue ID from the issue body using sed
           PARENT_ISSUE=$(echo "$ISSUE_BODY" | sed -n 's|.*github\.com/.*/issues/\([0-9]\+\).*|\1|p')
+
+          # If PARENT_ISSUE is empty, look for issue mentions like #<number>
+          if [ -z "$PARENT_ISSUE" ]; then
+            MENTIONED_ISSUES=$(echo "$ISSUE_BODY" | grep -o '#[0-9]\+')
+            PARENT_ISSUE=$(echo "$MENTIONED_ISSUES" | grep -o '[0-9]\+' | head -n1)
+          fi
 
           # Check if the parent issue ID was found
           if [ -n "$PARENT_ISSUE" ]; then
             # Proceed if either condition is true
-            if [ "$PERFORMED_VIA_GITHUB_APP" != "null" ] || ! echo "$ISSUE_BODY" | grep -q '#[0-9]\+'; then
+            if [ "$PERFORMED_VIA_GITHUB_APP" != "null" ] || [ -z "$MENTIONED_ISSUES" ]; then
               # Fetch labels of the parent issue and store them
-              LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq -r '.labels[].name')
+              LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels --jq '.labels[].name')
               echo "Labels on parent issue #$PARENT_ISSUE: $LABELS"
 
               # Check if the parent issue has the "test" label
