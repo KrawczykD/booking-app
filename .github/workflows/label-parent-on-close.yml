@@ -23,30 +23,25 @@ jobs:
 
           # Check if the parent issue ID was found
           if [ -n "$PARENT_ISSUE" ]; then
-            # Check if the child issue was created from a comment on the parent issue
-            if [ "${{ github.event.issue.performed_via_github_app }}" = "null" ]; then
-              echo "Child issue was not created from a comment on a parent issue. No action taken."
-              exit 0
-            fi
+            # Proceed if either condition is true
+            if [ "${{ github.event.issue.performed_via_github_app }}" != "null" ] || ! echo "${{ github.event.issue.body }}" | grep -q '#[0-9]\+'; then
+              # Fetch labels of the parent issue and store them
+              LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq -r '.labels[].name')
+              echo "Labels on parent issue #$PARENT_ISSUE: $LABELS"
 
-            # Check if the child issue does not mention any other issues
-            if echo "${{ github.event.issue.body }}" | grep -q '#[0-9]\+'; then
-              echo "Child issue mentions another issue. No action taken."
-              exit 0
-            fi
-
-            # Fetch labels of the parent issue and store them
-            LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq -r '.labels[].name')
-            echo "Labels on parent issue #$PARENT_ISSUE: $LABELS"
-
-            # Check if the parent issue has the "test" label
-            if echo "$LABELS" | grep -q "^test$"; then
-              # If the "test" label is present, add the "test:require:retest" label
-              gh issue edit "$PARENT_ISSUE" --add-label "test:require:retest" --repo "$REPOSITORY"
-              echo "Added 'test:require:retest' label to parent issue #$PARENT_ISSUE."
+              # Check if the parent issue has the "test" label
+              if echo "$LABELS" | grep -q "^test$"; then
+                # If the "test" label is present, add the "test:require:retest" label
+                gh issue edit "$PARENT_ISSUE" --add-label "test:require:retest" --repo "$REPOSITORY"
+                echo "Added 'test:require:retest' label to parent issue #$PARENT_ISSUE."
+              else
+                echo "Parent issue #$PARENT_ISSUE does not have the 'test' label. No action taken."
+              fi
             else
-              echo "Parent issue #$PARENT_ISSUE does not have the 'test' label. No action taken."
+              echo "Conditions not met. No action taken."
+              exit 0
             fi
           else
             echo "No parent issue found in the child issue body."
+            exit 0
           fi
