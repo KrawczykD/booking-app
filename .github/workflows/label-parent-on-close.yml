@@ -23,6 +23,18 @@ jobs:
 
           # Check if the parent issue ID was found
           if [ -n "$PARENT_ISSUE" ]; then
+            # Check if the child issue was created from a comment on the parent issue
+            if [ "${{ github.event.issue.performed_via_github_app }}" = "null" ]; then
+              echo "Child issue was not created from a comment on a parent issue. No action taken."
+              exit 0
+            fi
+
+            # Check if the child issue does not mention any other issues
+            if echo "${{ github.event.issue.body }}" | grep -q '#[0-9]\+'; then
+              echo "Child issue mentions another issue. No action taken."
+              exit 0
+            fi
+
             # Fetch labels of the parent issue and store them
             LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq -r '.labels[].name')
             echo "Labels on parent issue #$PARENT_ISSUE: $LABELS"
