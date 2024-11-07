@@ -16,15 +16,17 @@ jobs:
       - name: Extract Parent Issue and Check Labels
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY: ${{ github.repository }} # Automatically sets the repo context
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          PERFORMED_VIA_GITHUB_APP: ${{ github.event.issue.performed_via_github_app }}
         run: |
           # Extract parent issue ID from the child issue body using sed
-          PARENT_ISSUE=$(echo "${{ github.event.issue.body }}" | sed -n 's|.*github\.com/.*/issues/\([0-9]\+\).*|\1|p')
+          PARENT_ISSUE=$(echo "$ISSUE_BODY" | sed -n 's|.*github\.com/.*/issues/\([0-9]\+\).*|\1|p')
 
           # Check if the parent issue ID was found
           if [ -n "$PARENT_ISSUE" ]; then
             # Proceed if either condition is true
-            if [ "${{ github.event.issue.performed_via_github_app }}" != "null" ] || ! echo "${{ github.event.issue.body }}" | grep -q '#[0-9]\+'; then
+            if [ "$PERFORMED_VIA_GITHUB_APP" != "null" ] || ! echo "$ISSUE_BODY" | grep -q '#[0-9]\+'; then
               # Fetch labels of the parent issue and store them
               LABELS=$(gh issue view "$PARENT_ISSUE" --repo "$REPOSITORY" --json labels | jq -r '.labels[].name')
               echo "Labels on parent issue #$PARENT_ISSUE: $LABELS"
